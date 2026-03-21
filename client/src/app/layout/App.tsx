@@ -1,15 +1,22 @@
 import { CssBaseline, Container, Box } from "@mui/material"
 import NavBar from "./NavBar";
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
+import Homepage from "../../features/activities/home/Homepage";
 
 function App() {
+  const location = useLocation();
+
   return (
     <Box sx={{bgcolor: '#eeeeee', minHeight: '100vh'}}>
       <CssBaseline />
-      <NavBar />
-      <Container maxWidth='xl' sx={{mt: 3}}>
-        <Outlet />
-      </Container>
+      {location.pathname === '/' ? <Homepage /> : (
+        <>
+          <NavBar />
+          <Container maxWidth='xl' sx={{mt: 3}}>
+            <Outlet />
+          </Container>
+        </>
+      )}
     </Box>
   )
 }
