@@ -14,14 +14,20 @@ export type Activity = {
   isHost: boolean
   hostId: string
   hostDisplayName: string
+  hostImageUrl: string
 }
 
-type Profile = {
+export type Profile = {
   id: string
   username: string
   displayName: string
   bio?: string
   imageUrl?: string
+}
+
+export type Photo = {
+  id: string
+  url: string
 }
 
 export type User = {

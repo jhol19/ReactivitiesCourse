@@ -24,12 +24,24 @@ export default function ProfileCard({ profile }: Props) {
                 <CardMedia 
                     component='img' 
                     src={profile?.imageUrl || '/assets/user.png'}
-                    sx={{width: 200, zindex: 50}}
+                    sx={{width: '100%', zindex: 50}}
                     alt={profile.displayName + ' image'}
                 />
                 <CardContent sx={{textAlign: 'center'}}>
-                    <Box display='flex' alignItems='center' gap={1}>
+                    <Box display='flex' flexDirection='column' gap={1}>
                         <Typography variant="h5">{profile.displayName}</Typography>
+                        {profile.bio && (
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    textOverflow: 'ellipsis',
+                                    overflow: 'hidden',
+                                    whiteSpace: 'nowrap'
+                                }}
+                            >
+                                {profile.bio}
+                            </Typography>
+                        )}
                         {following && <Chip size="small" label="Following"
                             color="secondary" variant="outlined"/>}
                     </Box>
