@@ -10,6 +10,7 @@ import SelectInput from "../../../app/shared/components/SelectInput";
 import { categoryOptions } from "./CategoryOptions";
 import DateTimeInput from "../../../app/shared/components/DateTimeInput";
 import LocationInput from "../../../app/shared/components/LocationInput";
+import type { Activity } from "../../../lib/types";
 
 export default function ActivityFrom() {
     const {control, reset, handleSubmit} = useForm<ActivitySchema>({
@@ -23,7 +24,7 @@ export default function ActivityFrom() {
     useEffect(() => {
         if (activity) reset({
             ...activity,
-            date: new Date(activity.date + 'Z'),
+            date: new Date(activity.date),
             location : {
                 city: activity.city,
                 venue: activity.venue,
@@ -34,15 +35,19 @@ export default function ActivityFrom() {
     }, [activity, reset]);
 
     const onSubmit = async (data: ActivitySchema) => {
-        const {location, ...rest} = data;
-        const flattenedData = {...rest, ...location};
+        const { location, ...rest } = data;
+        const flattenedData = { ...rest, ...location };
         try {
             if (activity) {
-                await updateActivity.mutateAsync({...activity, ...flattenedData});
-                navigate(`/activities/${activity.id}`);
+                updateActivity.mutate({ ...activity, ...flattenedData } as Activity, {
+                    onSuccess: () => navigate(`/activities/${activity.id}`)
+                });
             } else {
-                const id = await createActivity.mutateAsync({...flattenedData});
-                navigate(`/activities/${id}`);
+                createActivity.mutate(flattenedData as Activity, {
+                    onSuccess: (id) => {
+                        navigate(`/activities/${id}`);
+                    }
+                });
             }
         } catch (error) {
             console.log(error);
