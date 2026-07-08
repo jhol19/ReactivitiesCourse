@@ -1,4 +1,5 @@
 using System;
+using System.Net.NetworkInformation;
 
 namespace Domain;
 
@@ -27,4 +28,5 @@ public class Activity
 
     // navigation properties
     public ICollection<ActivityAttendee> Attendees { get; set; } = [];
+    public ICollection<Comment> Comments { get; set; } = [];
 }
