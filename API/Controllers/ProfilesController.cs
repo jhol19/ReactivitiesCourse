@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using Application.Profiles.Commands;
 using Application.Profiles.DTOs;
 using Application.Profiles.Queries;
@@ -59,5 +60,13 @@ public class ProfilesController : BaseApiController
         return HandleResult(await Mediator
             .Send(new GetFollowings.Query{UserId = userId, 
                 Predicate = predicate}));
-    }    
+    }
+
+    [HttpGet("{userId}/activities")]
+    public async Task<ActionResult> GetUserActivities(string userId, string filter)
+    {
+        return HandleResult(await Mediator
+            .Send(new GetUserActivityList.Query{UserId = userId, 
+                Filter = filter}));
+    }
 }
